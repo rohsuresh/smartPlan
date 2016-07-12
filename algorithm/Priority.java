@@ -2,10 +2,15 @@
  * Created by rohansuresh on 7/1/16.
  */
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Priority {
 
     private int sleepDesired;
+    private int schoolHours;
+    private int schoolHoursInWeek;
+    private int misc;
+    private int miscInWeek;
     private final int totalHoursInWeek;
     private int sleepHours;
     private int workingHours;
@@ -17,10 +22,14 @@ public class Priority {
 
 
     public Priority() {
-        sleepDesired = 7;
+        misc = 2;
+        miscInWeek = misc * 7;
+        schoolHours = 7;
+        schoolHoursInWeek = schoolHours * 5;
+        sleepDesired = 8;
         totalHoursInWeek = 24 * 7;
         sleepHours = sleepDesired * 7;
-        workingHours = totalHoursInWeek - sleepHours;
+        workingHours = totalHoursInWeek - sleepHours - miscInWeek - schoolHoursInWeek;
 
         Entry hw = new Entry("Work", 1, 4);
         Entry test = new Entry("Test", 2, 3);
@@ -47,18 +56,40 @@ public class Priority {
         for(int i = 0; i < tasks.size(); i++) {
             totalHoursOfWork += tasks.get(i).getHours();
         }
-        //System.out.println(totalHoursOfWork);
+
+        System.out.println(totalHoursOfWork);
+        System.out.println(workingHours);
 
         if (totalHoursOfWork > workingHours) {
             int extra = totalHoursOfWork - workingHours;
             System.out.println("Ouch. Looks like you need to cut back on sleep this week by " + extra + " hours.");
         }
 
-        int day = 3;
+        int day = 1;
+        int schoolPerDay = 7;
+        int misc = 2;
 
-        while (day > 0) {
-            for (Entry e : tasks) {
-                e.dayOver(e.getHours() / e.getDaysLeft());
+        LinkedList<Entry> doToday = new LinkedList<>();
+        ArrayList<LinkedList> eachDay = new ArrayList<>();
+        double perDay;
+
+        for (int i = 0; i < day; i++) {
+            for (int j = 0; j < tasks.size(); j++) {
+                perDay = tasks.get(j).getHours() / tasks.get(j).getDaysLeft();
+                doToday.add(new Entry(tasks.get(j).getName(), perDay, tasks.get(j).getDaysLeft()));
+            }
+            eachDay.add(doToday);
+        }
+
+        for (int e = 0; e < day; e++) {
+            for (int i = 0; i < eachDay.get(e).size(); i++) {
+                System.out.println("Day " + e + ": " + eachDay.get(e).get(i).toString());
+            }
+        }
+
+        /*while (day > 0) {
+            for (int i = 0; i < tasks.size(); i++) {
+                tasks.get(i).dayOver(tasks.get(i).getHours() / tasks.get(i).getDaysLeft());
             }
             day--;
         }
@@ -72,7 +103,7 @@ public class Priority {
             if(i < tasks.size()) {
                 System.out.println(tasks.get(i).getName() + ' ' + tasks.get(i).getHours() + ' ' + tasks.get(i).getDaysLeft());
             }
-        }
+        }*/
     }
 
     public static void main (String[] args) {

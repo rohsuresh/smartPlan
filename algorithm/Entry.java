@@ -7,6 +7,7 @@ public class Entry {
     private double hours;
     private double daysLeft;
 
+
     public Entry (String n, double h, double d) {
         name = n;
         hours = h;
@@ -23,6 +24,12 @@ public class Entry {
 
     public double getDaysLeft() {
         return daysLeft;
+    }
+
+    @Override
+    public String toString() {
+        return "name='" + name + '\'' +
+                ", hours=" + hours;
     }
 
     public void dayOver(double hoursPerDay) {
