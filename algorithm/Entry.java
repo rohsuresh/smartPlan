@@ -26,6 +26,10 @@ public class Entry {
         return daysLeft;
     }
 
+    public double getHoursPerDay() {
+        return hours / daysLeft;
+    }
+
     @Override
     public String toString() {
         return "name='" + name + '\'' +

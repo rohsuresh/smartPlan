@@ -31,6 +31,7 @@ public class Priority {
         sleepHours = sleepDesired * 7;
         workingHours = totalHoursInWeek - sleepHours - miscInWeek - schoolHoursInWeek;
 
+        // Entry (Name, total Hours, days Left)
         Entry hw = new Entry("Work", 1, 4);
         Entry test = new Entry("Test", 2, 3);
         Entry project = new Entry("Project", 10, 6);
@@ -65,7 +66,7 @@ public class Priority {
             System.out.println("Ouch. Looks like you need to cut back on sleep this week by " + extra + " hours.");
         }
 
-        int day = 1;
+        int day = 3;
         int schoolPerDay = 7;
         int misc = 2;
 
@@ -73,17 +74,41 @@ public class Priority {
         ArrayList<LinkedList> eachDay = new ArrayList<>();
         double perDay;
 
-        for (int i = 0; i < day; i++) {
+        /*for (int i = 0; i < day; i++) {
             for (int j = 0; j < tasks.size(); j++) {
                 perDay = tasks.get(j).getHours() / tasks.get(j).getDaysLeft();
                 doToday.add(new Entry(tasks.get(j).getName(), perDay, tasks.get(j).getDaysLeft()));
             }
             eachDay.add(doToday);
+        }*/
+
+        int i = 0;
+        //System.out.println(i);
+        while (i < day) {
+            //System.out.println("iteration");
+            for (int j = 0; j < tasks.size(); j++) {
+                perDay = tasks.get(j).getHours() / tasks.get(j).getDaysLeft();
+                doToday.add(new Entry(tasks.get(j).getName(), perDay, tasks.get(j).getDaysLeft()));
+            }
+            eachDay.add(doToday);
+            for (int entry = 0; entry < tasks.size(); entry++) {
+                tasks.get(entry).dayOver(tasks.get(entry).getHoursPerDay());
+                while (tasks.get(entry).getHours() <= 0 || tasks.get(entry).getDaysLeft() <= 0) {
+                    tasks.remove(tasks.get(entry));
+                    if(entry >= tasks.size()) {
+                        break;
+                    }
+                }
+            }
+            i++;
         }
 
+        //System.out.println("Yung 1");
+
         for (int e = 0; e < day; e++) {
-            for (int i = 0; i < eachDay.get(e).size(); i++) {
-                System.out.println("Day " + e + ": " + eachDay.get(e).get(i).toString());
+            for (int k = 0; k < eachDay.get(e).size(); k++) {
+                //System.out.println("Yung Ragu");
+                System.out.println("Day " + e + ": " + eachDay.get(e).get(k).toString());
             }
         }
 
